@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+body {
+	font-family: sans-serif;
+	font-size: smaller;
+	padding: 10px;
+}
+
+svg {
+	font-size: 10px;
+}
+
+circle.normal {
+  stroke-width: 0px;
+}
+
+circle.highlight {
+  stroke: rgba(0,0,0,1);
+  stroke-width: 2px;
+}
+
+.normalAnchor {
+	font-weight: normal;
+}
+	
+.highlightedAnchor {
+	font-weight: bold;
+}
+
+.normalSample {
+	color: black;
+	background-color: white;
+}
+
+.highlightedSample {
+	color: white;
+	background-color: black;
+	padding-left: 2px;
+}
+
+text {
+  pointer-events: none;
+}
+
+text.highlight {
+  stroke: blue;
+  pointer-events: none;
+}
+
+text.shadow {
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-opacity: .8;
+}
+
+ul { 
+	padding-left:0px; 
+}
+
+li { 
+	margin-bottom:0.5em; 
+	list-style-type:none;
+}
+</style>
+<script src='http://d3js.org/d3.v3.min.js'></script></head>
+
+<body>
+<table>
+<tr><td><b id="heading" style="float:left">[Heading]</b>&nbsp;&nbsp;<a href='export' style="float:right; text-decoration:none;"></a><br/>
+<div id="plotDiv"></div></td><td id='samplesTd' valign='top' style='padding-left:10px; font-size:11px'>Samples</td></tr>
+</table>
+<script>// Variables in ${} need to be parsed with appropriate values by the code before this script can be run.
+
+// ---------------------------------------------------------------------------------------
+// Define data
+// ---------------------------------------------------------------------------------------
+
+// Heading for the page
+var heading = 'hematlas, celltype';
+
+// Main list of points. Array of dictionaries, one for each node to be drawn.
+var points = [{label:"B1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"B2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"BEMP", radius:5, fill:"#ffc6b3", stroke:"#a6a6a6"},
+{label:"Brain", radius:5, fill:"#ecb3ff", stroke:"#a6a6a6"},
+{label:"CD16/CD32:Hi.CD150:+.BP", radius:5, fill:"#df9fdf", stroke:"#a6a6a6"},
+{label:"CD4T.LN", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"CD4T.Thy1.2lo", radius:5, fill:"#ffccfe", stroke:"#a6a6a6"},
+{label:"CD8T.LN", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"CD9:Hi.BP", radius:5, fill:"#ecffb3", stroke:"#a6a6a6"},
+{label:"CFU-E", radius:5, fill:"#ffecb3", stroke:"#a6a6a6"},
+{label:"CMP", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"DblPosT", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"DnResidentDC", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"EffCD4T", radius:5, fill:"#ffd9b3", stroke:"#a6a6a6"},
+{label:"EffCD8T", radius:5, fill:"#9fbfdf", stroke:"#a6a6a6"},
+{label:"Eo", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"EoP", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"GMP", radius:5, fill:"#79d2d2", stroke:"#a6a6a6"},
+{label:"ImmB", radius:5, fill:"#ccffe6", stroke:"#a6a6a6"},
+{label:"Kidney", radius:5, fill:"#c6b3ff", stroke:"#a6a6a6"},
+{label:"LSK", radius:5, fill:"#ffcd38", stroke:"#a6a6a6"},
+{label:"LTHSC", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Liver", radius:5, fill:"#ffb3ec", stroke:"#a6a6a6"},
+{label:"Lung", radius:5, fill:"#b3c6ff", stroke:"#a6a6a6"},
+{label:"MEP", radius:5, fill:"#9fdfdf", stroke:"#a6a6a6"},
+{label:"MPP", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Mac", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Meg.2-4N", radius:5, fill:"#c6ffb3", stroke:"#a6a6a6"},
+{label:"Meg.>=4N", radius:5, fill:"#b3ffec", stroke:"#a6a6a6"},
+{label:"Meg.>=8N", radius:5, fill:"#ffb3c6", stroke:"#a6a6a6"},
+{label:"MemCD8T", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"MigratoryDC", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"MonMac", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Mono", radius:5, fill:"#dfbf9f", stroke:"#a6a6a6"},
+{label:"Monocyte", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"NK", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Neutrophil", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"NveCD4T", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"NveCD8T", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Ovary", radius:5, fill:"#b3ecff", stroke:"#a6a6a6"},
+{label:"PreB", radius:5, fill:"#9fdfbf", stroke:"#a6a6a6"},
+{label:"PreCFU-E", radius:5, fill:"#b3ffc6", stroke:"#a6a6a6"},
+{label:"PreGM.Flt3:-", radius:5, fill:"#ffdd75", stroke:"#a6a6a6"},
+{label:"ProB", radius:5, fill:"#df9f9f", stroke:"#a6a6a6"},
+{label:"ProDC", radius:5, fill:"#df9fbf", stroke:"#a6a6a6"},
+{label:"RecB", radius:5, fill:"#ffcce5", stroke:"#a6a6a6"},
+{label:"RegT", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"ResidentDC", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"STHSC", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"TN1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"TN2", radius:5, fill:"#9fdf9f", stroke:"#a6a6a6"},
+{label:"TN3", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"TN4", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Testis", radius:5, fill:"#7598ff", stroke:"#a6a6a6"}];
+
+var points = [{label:"0610007P22Rik", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"0610009O20Rik", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"0910001L09Rik", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"1700047I17Rik2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"5430435G22Rik", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"5730469M10Rik", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Aebp2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Aff1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Atp5d", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"BC046331", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Blvra", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Brix1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"C030006K11Rik", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Chchd5", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Cnot2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Cxxc1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Cyb5rl", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Dcaf5", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Dhx33", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Dpagt1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Exosc7", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Fahd2a", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Fam78a", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Gm2506", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Gm5595", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Gpd2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Gpn2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"H2-Q6", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Hist1h2ae", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Icam4", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Il16", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Itfg2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Lin54", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Lrmp", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Lrrc59", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Map2k6", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Mapk1ip1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Med21", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Ncbp1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Net1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Nfkbia", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Nfs1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Ntpcr", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Oma1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Padi4", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Parp2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Pdp2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Pdrg1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Phospho2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Pi4k2b", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Pomp", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Ppid", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Ppp4r1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Pprc1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Psmb6", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Pspc1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Rabgef1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Rnf19a", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Rnmtl1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Sap30", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Sfr1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Skiv2l", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Slc25a39", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Slc31a2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Snrnp200", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Supt5h", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Synj2bp", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Tm7sf3", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Tmem33", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Tmem85", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Tnfaip8l2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Wdr48", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Wdr6", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Wdr61", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Zfp281", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Zfp36", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Zfp592", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"1700067K01Rik", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Fam166b", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Pias2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Adra2a", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"BC051665", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Klk7", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Lrp5", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"AC145588.1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Cct8l1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Alk", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Ddc", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Gm16897", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Npdc1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Olfr1028", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Axl", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Pcdhb21", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Cd164l2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
+{label:"Prkce", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"}];
+
+// List of edge indices. 
+//var connectedIndices = [0,8,39,8,52,49,5,48,24,20,52,34,46,13,33,17,42,45,39,48,48,19,39,41,42,34,4,27,9,46,12,33,44,32,30,32,5,37,21,18,2,44,40,43,1,5,12,25,25,49,50,51,39];
+//var connectedIndices = [3,1,0];
+var connectedIndices = [[0,31,0.814437486468],[1,31,0.857414196224],[2,31,0.823407179159],[3,31,-0.861795227807],[4,31,0.764414889587],[5,31,-0.919704793567],[6,31,0.890734939162],[7,31,-0.877852698865],[8,31,0.903069714223],[9,31,0.898353109722],[10,31,0.92044166116],[10,75,-0.727584975524],[11,31,0.838611999214],[12,31,0.987223465223],[13,31,0.86716474339],[14,31,0.812858857114],[15,31,0.885774934158],[16,31,0.970100168588],[17,31,0.951036172318],[18,31,0.76920883706],[19,31,0.940086461076],[20,31,0.938952977228],[21,31,0.99574278818],[22,31,0.89660139132],[23,31,0.7565987036],[24,31,-0.870863409611],[25,31,-0.966950891881],[26,75,-0.800882120156],[27,31,-0.80378991],[28,31,0.733310000964],[29,31,0.890757191978],[30,31,-0.821328685298],[31,32,0.887784138402],[31,33,-0.845841197099],[31,34,-0.916509347199],[31,35,0.830098415433],[31,36,0.78545145487],[31,38,0.932366680094],[31,39,0.779084557642],[31,40,-0.988139005995],[31,41,-0.937450211715],[31,42,0.945715809286],[31,44,-0.871512143496],[31,45,0.983849673837],[31,46,0.969893994856],[31,47,0.982491618694],[31,49,0.803414478645],[31,50,0.938622075119],[31,52,-0.83626669587],[31,53,0.95809968488],[31,54,0.90247831514],[31,55,-0.922772274733],[31,57,-0.806296866557],[31,58,0.970039886944],[31,59,0.943991027336],[31,60,-0.899394222305],[31,61,-0.880403547846],[31,63,-0.900028725208],[31,64,-0.833744448476],[31,65,0.940639280704],[31,66,0.774209498574],[31,67,-0.72346890378],[31,68,0.964498125713],[31,70,0.80525690343],[31,71,0.882946751036],[31,72,0.765908973438],[31,74,-0.825396792944],[31,76,-0.800869996893],[34,75,-0.854714788988],[37,75,-0.815331368158],[43,75,-0.747119869948],[48,75,-0.836268118262],[51,75,-0.823795095435],[56,75,0.782943427453],[62,75,-0.750623551182],[69,75,-0.756320592134],[73,75,-0.828770306983],[77,78,0.766685033341],[78,79,0.788357849348],[80,81,-0.737552857539],[81,82,0.771018787737],[81,83,0.790053310547],[84,85,0.801220510282],[86,89,0.747134050555],[87,89,0.922821329432],[87,90,0.735499753655],[88,89,0.772344406136],[91,92,0.714617657702],[93,94,0.876297451818]];
+
+// Dimension of the svg area to be created.
+var w = 1180.4,
+    h = 696.1;
+
+// Contains display string for each sample id
+//var sampleGroupDictionary = ${sampleGroupDictionary};
+
+// These are used to create a unique id for each point, while not relying on the label used in the point.
+var sampleIndices = {};
+for(var i = 0; i < points.length; i++) {
+	sampleIndices[points[i].label] = i;
+}
+
+var labelDistance = 0;
+
+// Define nodes and edges (also called links)
+var nodes = [];
+var links = [];
+for(var i = 0; i < connectedIndices.length; i++) {
+	var lineColour = (connectedIndices[i][2]>=0)? '#c6c6c6' : '#ff0000';
+	links.push({source:connectedIndices[i][0], target:connectedIndices[i][1], weight:1, color:lineColour});
+	//links.push({source:i+1, target:connectedIndices[i], weight:1});
+};
+
+// Define labelAnchors and labelAnchorLinks. Note that these are duplicated
+var labelAnchors = [];
+var labelAnchorLinks = [];
+for(var i = 0; i < points.length; i++) {
+	labelAnchors.push({
+		node : points[i]
+	});
+	labelAnchors.push({
+		node : points[i]
+	});
+};
+
+for(var i = 0; i < points.length; i++) {
+	labelAnchorLinks.push({
+		source : i * 2,
+		target : i * 2 + 1,
+		weight : 1
+	});
+};
+
+
+// ---------------------------------------------------------------------------------------
+// Define functions
+// ---------------------------------------------------------------------------------------
+
+// Handling mouse over and out events (note that this code needs to come before .on calls for circles, otherwise it doeesn't work)
+var nodeMouseOverFunction = function() {
+	var circle = d3.select(this);	// this selects the circle
+	circle.attr("class","highlight");	// change its class to highlight it
+	d3.selectAll("#anchorText_"+circle.attr("index")).attr("class","highlightedAnchor");
+	d3.selectAll("#li_"+circle.attr("index")).attr("class","highlightedSample");
+}
+
+var nodeMouseOutFunction = function() {
+	var circle = d3.select(this);
+	circle.attr("class","normal");
+	d3.selectAll("#anchorText_"+circle.attr("index")).attr("class","normalAnchor");
+	d3.selectAll("#li_"+circle.attr("index")).attr("class","normalSample");
+}
+
+// ---------------------------------------------------------------------------------------
+// Draw using the data
+// ---------------------------------------------------------------------------------------
+
+// Set heading for the page
+d3.select("#heading").text(heading + " (" + points.length + ")");
+
+// Populate the area with the list of sample ids first, because for large number of these, we increase the height of svg area.
+var sampleNode = d3.select("#samplesTd").append("ul").selectAll("li")
+	.data(points)
+	.enter().append("li")
+	.attr("id", function(d, i) { return "li_"+i; })
+	.text(function(d) { return d.label; });
+
+// Define the plot area with specified width and height (note that we must convert height attribute to float before using max function).
+var vis = d3.select("#plotDiv").append("svg:svg")
+	.attr("width", w)
+	.attr("height", d3.max([h, parseFloat(d3.select("#samplesTd").style("height"))]))
+	.style("border-top", "1px solid grey");
+
+
+// Create a force layout on the points
+var force = d3.layout.force().size([w, h]).nodes(points).links(links).gravity(1).linkDistance(50).charge(-3000).linkStrength(function(x) {
+	return x.weight * 10
+});
+force.start();
+
+// Create a force layout on the labelAnchors
+var force2 = d3.layout.force().nodes(labelAnchors).links(labelAnchorLinks).gravity(0).linkDistance(0).linkStrength(8).charge(-100).size([w, h]);
+force2.start();
+
+// Draw links first so that nodes are on top
+var link = vis.selectAll("line.link").data(links).enter().append("svg:line")
+	.attr("class", "link")
+	.style("stroke", function(d) {
+		return d.color;
+	});
+var anchorLink = vis.selectAll("line.anchorLink").data(labelAnchorLinks)//.enter().append("svg:line").attr("class", "anchorLink").style("stroke", "#999");
+
+// Add a circle to each node and stylise it
+var node = vis.selectAll("g.node").data(force.nodes()).enter().append("svg:g");
+node.append("svg:circle")
+	.attr("index", function(d,i) {
+		return i;
+	})
+	.attr("r", function(d) {
+		return d.radius;
+	})
+	.attr("fill", function(d) {
+		return d.fill;
+	})
+	.attr("stroke", function(d) {
+		return d.stroke;
+	})
+	.attr("class", "normal")
+	.on("mouseover", nodeMouseOverFunction)
+	.on("mouseout", nodeMouseOutFunction);
+
+node.call(force.drag);
+
+var anchorNode = vis.selectAll("g.anchorNode").data(labelAnchors).enter().append("svg:g");
+anchorNode.append("svg:circle").attr("r", 0).style("fill", "#FFF");
+anchorNode.append("svg:text")
+	.text(function(d, i) {
+		return i % 2 == 0 ? "" : d.node.label
+		//return i % 2 == 0 ? "" : sampleGroupDictionary[d.node.label]
+	})
+	.attr("class", "normalAnchor")
+	.attr("id", function(d, i) { 
+		return i % 2 == 0 ? "" : "anchorText_"+sampleIndices[d.node.label];
+	});
+	
+var updateLink = function() {
+	this.attr("x1", function(d) {
+		return d.source.x;
+	}).attr("y1", function(d) {
+		return d.source.y;
+	}).attr("x2", function(d) {
+		return d.target.x;
+	}).attr("y2", function(d) {
+		return d.target.y;
+	});
+
+}
+
+var updateNode = function() {
+	this.attr("transform", function(d) {
+		return "translate(" + d.x + "," + d.y + ")";
+	});
+
+}
+
+force.on("tick", function() {
+
+	force2.start();
+
+	node.call(updateNode);
+
+	anchorNode.each(function(d, i) {
+		if(i % 2 == 0) {
+			d.x = d.node.x;
+			d.y = d.node.y;
+		} else {
+			var b = this.childNodes[1].getBBox();
+
+			var diffX = d.x - d.node.x;
+			var diffY = d.y - d.node.y;
+
+			var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+
+			var shiftX = b.width * (diffX - dist) / (dist * 2);
+			shiftX = Math.max(-b.width, Math.min(0, shiftX));
+			var shiftY = 5;
+			this.childNodes[1].setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+		}
+	});
+
+	anchorNode.call(updateNode);
+
+	link.call(updateLink);
+	anchorLink.call(updateLink);
+
+});
+</script></body>
+</html>
