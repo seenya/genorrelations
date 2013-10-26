@@ -70,6 +70,40 @@ for(var i = 0; i < points.length; i++) {
     });
 };
 
+// var test = massageStructure(connectedIndices);
+// structure = {"node #": [ connection nodes] }
+//
+//
+function massageStructure(connections) {
+var structure = {}
+    // Pass 1: Find number of connections for each node
+    for (var i = 0; i < connections.length; i++) {
+        // connections[i] is the a single data point linking nodes to each other
+        // nodes are contained in element 0 and 1
+        insert(structure, connections[i][0], connections[i][1])
+        insert(structure, connections[i][1], connections[i][0])
+    }
+
+    // Pass 2: Remove nodes with only one connection
+    for (var key in Object.keys(structure)) {
+        var links = structure[key];
+        if (links.length == 1) {
+            // throw away
+        }
+    }
+
+    // Pass 3: Rebuild connection list based on 'big' nodes...
+    // This is the big one...
+    // Possibly merge with Pass 2
+}
+
+function insert(storage, node1, node2) {
+    if (!(node1 in storage)) {
+        dictionary[node1] = [];
+    }
+    dictionary[node1].push(node2);
+}
+
 
 // ---------------------------------------------------------------------------------------
 // Define functions
