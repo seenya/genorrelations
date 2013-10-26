@@ -18,63 +18,8 @@
 
 // Heading for the page
 var heading = 'hematlas, celltype';
-/*
+
 // Main list of points. Array of dictionaries, one for each node to be drawn.
-var points = [{label:"B1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"B2", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"BEMP", radius:5, fill:"#ffc6b3", stroke:"#a6a6a6"},
-{label:"Brain", radius:5, fill:"#ecb3ff", stroke:"#a6a6a6"},
-{label:"CD16/CD32:Hi.CD150:+.BP", radius:5, fill:"#df9fdf", stroke:"#a6a6a6"},
-{label:"CD4T.LN", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"CD4T.Thy1.2lo", radius:5, fill:"#ffccfe", stroke:"#a6a6a6"},
-{label:"CD8T.LN", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"CD9:Hi.BP", radius:5, fill:"#ecffb3", stroke:"#a6a6a6"},
-{label:"CFU-E", radius:5, fill:"#ffecb3", stroke:"#a6a6a6"},
-{label:"CMP", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"DblPosT", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"DnResidentDC", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"EffCD4T", radius:5, fill:"#ffd9b3", stroke:"#a6a6a6"},
-{label:"EffCD8T", radius:5, fill:"#9fbfdf", stroke:"#a6a6a6"},
-{label:"Eo", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"EoP", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"GMP", radius:5, fill:"#79d2d2", stroke:"#a6a6a6"},
-{label:"ImmB", radius:5, fill:"#ccffe6", stroke:"#a6a6a6"},
-{label:"Kidney", radius:5, fill:"#c6b3ff", stroke:"#a6a6a6"},
-{label:"LSK", radius:5, fill:"#ffcd38", stroke:"#a6a6a6"},
-{label:"LTHSC", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"Liver", radius:5, fill:"#ffb3ec", stroke:"#a6a6a6"},
-{label:"Lung", radius:5, fill:"#b3c6ff", stroke:"#a6a6a6"},
-{label:"MEP", radius:5, fill:"#9fdfdf", stroke:"#a6a6a6"},
-{label:"MPP", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"Mac", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"Meg.2-4N", radius:5, fill:"#c6ffb3", stroke:"#a6a6a6"},
-{label:"Meg.>=4N", radius:5, fill:"#b3ffec", stroke:"#a6a6a6"},
-{label:"Meg.>=8N", radius:5, fill:"#ffb3c6", stroke:"#a6a6a6"},
-{label:"MemCD8T", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"MigratoryDC", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"MonMac", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"Mono", radius:5, fill:"#dfbf9f", stroke:"#a6a6a6"},
-{label:"Monocyte", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"NK", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"Neutrophil", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"NveCD4T", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"NveCD8T", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"Ovary", radius:5, fill:"#b3ecff", stroke:"#a6a6a6"},
-{label:"PreB", radius:5, fill:"#9fdfbf", stroke:"#a6a6a6"},
-{label:"PreCFU-E", radius:5, fill:"#b3ffc6", stroke:"#a6a6a6"},
-{label:"PreGM.Flt3:-", radius:5, fill:"#ffdd75", stroke:"#a6a6a6"},
-{label:"ProB", radius:5, fill:"#df9f9f", stroke:"#a6a6a6"},
-{label:"ProDC", radius:5, fill:"#df9fbf", stroke:"#a6a6a6"},
-{label:"RecB", radius:5, fill:"#ffcce5", stroke:"#a6a6a6"},
-{label:"RegT", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"ResidentDC", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"STHSC", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"TN1", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"TN2", radius:5, fill:"#9fdf9f", stroke:"#a6a6a6"},
-{label:"TN3", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"TN4", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
-{label:"Testis", radius:5, fill:"#7598ff", stroke:"#a6a6a6"}];
-*/
 
 var points = [{label:"0610007P22Rik", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
 {label:"0610009O20Rik", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"},
@@ -173,8 +118,6 @@ var points = [{label:"0610007P22Rik", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"
 {label:"Prkce", radius:5, fill:"#c2c2c2", stroke:"#a6a6a6"}];
 
 // List of edge indices. 
-//var connectedIndices = [0,8,39,8,52,49,5,48,24,20,52,34,46,13,33,17,42,45,39,48,48,19,39,41,42,34,4,27,9,46,12,33,44,32,30,32,5,37,21,18,2,44,40,43,1,5,12,25,25,49,50,51,39];
-//var connectedIndices = [3,1,0];
 var connectedIndices = [[0,31,0.814437486468],
 [1,31,0.857414196224],
 [2,31,0.823407179159],
