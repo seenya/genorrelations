@@ -7,7 +7,6 @@ exports.index = function(req, res){
 exports.visualise = function(req, res){
     var id = req.query.id;
     getGroupJSON(id, function(err, data) {
-        console.log(data);
         res.render('visualise', data);
     });
 };
