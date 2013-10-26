@@ -1,6 +1,6 @@
 {
     "id":95,
-    "name":"hematlas, celltype (95)",
+    "name":"hematlas, celltype",
     "nodes":[{"label":"0610007P22Rik", "radius":5, "fill":"#c2c2c2", "stroke":"#a6a6a6"},
 {"label":"0610009O20Rik", "radius":5, "fill":"#c2c2c2", "stroke":"#a6a6a6"},
 {"label":"0910001L09Rik", "radius":5, "fill":"#c2c2c2", "stroke":"#a6a6a6"},

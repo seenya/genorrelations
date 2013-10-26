@@ -1,70 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<style type="text/css">
-body {
-    font-family: sans-serif;
-    font-size: smaller;
-    padding: 10px;
-}
-
-svg {
-    font-size: 10px;
-}
-
-circle.normal {
-  stroke-width: 0px;
-}
-
-circle.highlight {
-  stroke: rgba(0,0,0,1);
-  stroke-width: 2px;
-}
-
-.normalAnchor {
-    font-weight: normal;
-}
-    
-.highlightedAnchor {
-    font-weight: bold;
-}
-
-.normalSample {
-    color: black;
-    background-color: white;
-}
-
-.highlightedSample {
-    color: white;
-    background-color: black;
-    padding-left: 2px;
-}
-
-text {
-  pointer-events: none;
-}
-
-text.highlight {
-  stroke: blue;
-  pointer-events: none;
-}
-
-text.shadow {
-  stroke: #fff;
-  stroke-width: 3px;
-  stroke-opacity: .8;
-}
-
-ul { 
-    padding-left:0px; 
-}
-
-li { 
-    margin-bottom:0.5em; 
-    list-style-type:none;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
 <script src='http://d3js.org/d3.v3.min.js'></script></head>
 
 <body>
@@ -79,15 +17,15 @@ li {
 // ---------------------------------------------------------------------------------------
 
 // Heading for the page
-var heading = 'hematlas, celltype';
+var heading = "<%= name %>";
+
+// Main list of points. Array of dictionaries, one for each node to be drawn.
 
 var points = <%- JSON.stringify(nodes) %>;
 
 // List of edge indices. 
-//var connectedIndices = [0,8,39,8,52,49,5,48,24,20,52,34,46,13,33,17,42,45,39,48,48,19,39,41,42,34,4,27,9,46,12,33,44,32,30,32,5,37,21,18,2,44,40,43,1,5,12,25,25,49,50,51,39];
-//var connectedIndices = [3,1,0];
-//var cIndices = [{n1:0, n2:1, c:0.81}]
 var connectedIndices = <%- JSON.stringify(edges) %>;
+
 
 // Dimension of the svg area to be created.
 var w = 1180.4,
@@ -139,6 +77,7 @@ for(var i = 0; i < points.length; i++) {
 // ---------------------------------------------------------------------------------------
 
 // Handling mouse over and out events (note that this code needs to come before .on calls for circles, otherwise it doeesn't work)
+
 var nodeMouseOverFunction = function() {
     var circle = d3.select(this);   // this selects the circle
     circle.attr("class","highlight");   // change its class to highlight it
@@ -276,5 +215,37 @@ force.on("tick", function() {
     anchorLink.call(updateLink);
 
 });
+
+//-----------------------------
+// ZOOM FUNCTIONALITY
+//-----------------------------
+
+var w = 500,
+    h = 500,
+    fill = d3.scale.category20();
+
+var vis = d3.select("#plotDiv")
+  .append("svg:svg")
+    .attr("width", w)
+    .attr("height", h)
+    .attr("pointer-events", "all")
+  .append('svg:g')
+    .call(d3.behavior.zoom().on("zoom", redraw))
+  .append('svg:g');
+
+vis.append('svg:rect')
+    .attr('width', w)
+    .attr('height', h)
+    .attr('fill', 'white');
+
+function redraw() {
+  console.log("here", d3.event.translate, d3.event.scale);
+  vis.attr("transform",
+      "translate(" + d3.event.translate + ")"
+      + " scale(" + d3.event.scale + ")");
+}
+
+
+
 </script></body>
 </html>
