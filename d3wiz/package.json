@@ -1,0 +1,21 @@
+{
+  "name": "d3wiz",
+  "version": "0.0.0",
+  "description": "Browser based visualisation of gene relationships",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hqtan/healthhack2013.git"
+  },
+  "author": "d3 wiz",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/hqtan/healthhack2013/issues"
+  },
+  "dependencies": {
+    "express": "~3.4.3"
+  }
+}
