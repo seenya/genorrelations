@@ -2,6 +2,7 @@ var fs = require('fs');
 var Transform = require('stream').Transform;
 
 // call : node transfomer.js inputfile id name
+// e.g. : node transformer.js data/testdata.txt 1 testStuff
 
 var inputFilename = process.argv[2];
 var id = process.argv[3];
