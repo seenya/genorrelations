@@ -107,11 +107,27 @@ var sampleNode = d3.select("#samplesTd").append("ul").selectAll("li")
     .text(function(d) { return d.label; });
 
 // Define the plot area with specified width and height (note that we must convert height attribute to float before using max function).
-var vis = d3.select("#plotDiv").append("svg:svg")
-    .attr("width", w)
-    .attr("height", d3.max([h, parseFloat(d3.select("#samplesTd").style("height"))]))
-    .style("border-top", "1px solid grey");
+var vis = d3.select("#plotDiv")
+    .append("svg:svg")
+      .attr("width", w)
+      .attr("height", d3.max([h, parseFloat(d3.select("#samplesTd").style("height"))]))
+      .style("border-top", "1px solid grey")
+      .attr("pointer-events", "all")
+    .append('svg:g')
+      .call(d3.behavior.zoom().on("zoom", redraw))
+    .append('svg:g');
 
+vis.append('svg:rect')
+    .attr('width', w)
+    .attr('height', h)
+    .attr('fill', 'white');
+
+function redraw() {
+  console.log("here", d3.event.translate, d3.event.scale);
+    vis.attr("transform",
+          "translate(" + d3.event.translate + ")"
+                + " scale(" + d3.event.scale + ")");
+}
 
 // Create a force layout on the points
 var force = d3.layout.force().size([w, h]).nodes(points).links(links).gravity(1).linkDistance(50).charge(-3000).linkStrength(function(x) {
@@ -215,37 +231,6 @@ force.on("tick", function() {
     anchorLink.call(updateLink);
 
 });
-
-//-----------------------------
-// ZOOM FUNCTIONALITY
-//-----------------------------
-
-var w = 500,
-    h = 500,
-    fill = d3.scale.category20();
-
-var vis = d3.select("#plotDiv")
-  .append("svg:svg")
-    .attr("width", w)
-    .attr("height", h)
-    .attr("pointer-events", "all")
-  .append('svg:g')
-    .call(d3.behavior.zoom().on("zoom", redraw))
-  .append('svg:g');
-
-vis.append('svg:rect')
-    .attr('width', w)
-    .attr('height', h)
-    .attr('fill', 'white');
-
-function redraw() {
-  console.log("here", d3.event.translate, d3.event.scale);
-  vis.attr("transform",
-      "translate(" + d3.event.translate + ")"
-      + " scale(" + d3.event.scale + ")");
-}
-
-
 
 </script></body>
 </html>
