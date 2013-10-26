@@ -18,6 +18,13 @@ var getGroupJSON = function(id, callback) {
             callback(err);
         else {
             var jsonData = JSON.parse(data);
+            // Add the d3 attributes to the node names
+            jsonData.nodes.forEach(function(node) {
+                node.label = node.name;
+                node.radius = 5;
+                node.fill = "#c2c2c2";
+                node.stroke = "#a6a6a6";
+            });
             callback(null, jsonData);
         }
     });
