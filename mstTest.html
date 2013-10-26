@@ -258,6 +258,7 @@ for(var i = 0; i < points.length; i++) {
 // ---------------------------------------------------------------------------------------
 
 // Handling mouse over and out events (note that this code needs to come before .on calls for circles, otherwise it doeesn't work)
+
 var nodeMouseOverFunction = function() {
 	var circle = d3.select(this);	// this selects the circle
 	circle.attr("class","highlight");	// change its class to highlight it
@@ -395,5 +396,37 @@ force.on("tick", function() {
 	anchorLink.call(updateLink);
 
 });
+
+//-----------------------------
+// ZOOM FUNCTIONALITY
+//-----------------------------
+
+var w = 500,
+    h = 500,
+    fill = d3.scale.category20();
+
+var vis = d3.select("#plotDiv")
+  .append("svg:svg")
+    .attr("width", w)
+    .attr("height", h)
+    .attr("pointer-events", "all")
+  .append('svg:g')
+    .call(d3.behavior.zoom().on("zoom", redraw))
+  .append('svg:g');
+
+vis.append('svg:rect')
+    .attr('width', w)
+    .attr('height', h)
+    .attr('fill', 'white');
+
+function redraw() {
+  console.log("here", d3.event.translate, d3.event.scale);
+  vis.attr("transform",
+      "translate(" + d3.event.translate + ")"
+      + " scale(" + d3.event.scale + ")");
+}
+
+
+
 </script></body>
 </html>
