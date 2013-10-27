@@ -43,6 +43,7 @@ body {
     height: auto;
     border-top: 1px solid grey;
     background-color: white;
+    min-height: 500px;
 }
 
 #inputArea {
