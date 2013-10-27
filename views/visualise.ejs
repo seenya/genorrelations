@@ -3,13 +3,33 @@
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css">
-<script src='http://d3js.org/d3.v3.min.js'></script></head>
+<link rel="stylesheet" type="text/css" href="stylesheets/jquery-ui-1.10.3.custom.css">
+<script src="js/d3.v3.min.js"></script>
+<script src="js/jquery-1.9.1.js"></script></head>
 
 <body>
-<table>
-<tr><td><b id="heading" style="float:left">[Heading]</b>&nbsp;&nbsp;<a href='export' style="float:right; text-decoration:none;"></a><br/>
-<div id="chartArea"></div></td><td id='samplesArea' valign='top' style='padding-left:10px; font-size:11px'>Samples</td></tr>
-</table>
+  <div id="box">
+    <div id="leftArea">
+      <div id="heading">[Heading]</div>
+      <div id="chartArea"></div>
+    </div>
+    <div id="rightArea">
+      <div id="inputArea"><h1>Inputs</h1>
+          <p>
+              Level:
+              <select>
+                 <option value="1">1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+              </select>
+          </p>
+          <input type="submit" value="Submit">
+      </div>
+      <div id="samplesArea"><h1>Samples</h1></div>
+    </div>
+  </div>
+
 <script>// Variables in ${} need to be parsed with appropriate values by the code before this script can be run.
 
 // ---------------------------------------------------------------------------------------
@@ -28,8 +48,12 @@ var connectedIndices = <%- JSON.stringify(edges) %>;
 
 
 // Dimension of the svg area to be created.
-var w = 1180.4,
-    h = 696.1;
+// var w = 900.4,
+    // h = 696.1;
+
+var chartArea = document.getElementById("chartArea");
+var w = chartArea.offsetWidth,
+    h = chartArea.offsetHeight;
 
 // Contains display string for each sample id
 //var sampleGroupDictionary = ${sampleGroupDictionary};
@@ -142,9 +166,8 @@ var sampleNode = d3.select("#samplesArea").append("ul").selectAll("li")
 // Define the plot area with specified width and height (note that we must convert height attribute to float before using max function).
 var vis = d3.select("#chartArea")
     .append("svg:svg")
-      .attr("width", w)
-      .attr("height", d3.max([h, parseFloat(d3.select("#samplesArea").style("height"))]))
-      .style("border-top", "1px solid grey")
+      // .attr("width", w)
+      // .attr("height", d3.max([h, parseFloat(d3.select("#samplesArea").style("height"))]))
       .attr("pointer-events", "all")
     .append('svg:g')
       .call(d3.behavior.zoom().on("zoom", redraw));
