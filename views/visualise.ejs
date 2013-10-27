@@ -174,7 +174,7 @@ var sampleNode = d3.select("#samplesArea").append("ul").selectAll("li")
     .text(function(d) { return d.label; });
 
 // Define the plot area with specified width and height (note that we must convert height attribute to float before using max function).
-var vis = d3.select("#chartArea")
+var vis = d3.select("body").select("#leftArea").select("#chartArea")
     .append("svg:svg")
       // .attr("width", w)
       // .attr("height", d3.max([h, parseFloat(d3.select("#samplesArea").style("height"))]))
@@ -184,7 +184,7 @@ var vis = d3.select("#chartArea")
 
 vis.append('svg:rect')
     .attr('width', w)
-    .attr('height', h)
+    .attr('height', chartArea.offsetHeight)
     .attr('fill', 'white');
 
 function redraw() {
