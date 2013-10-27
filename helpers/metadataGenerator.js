@@ -38,7 +38,8 @@ fs.readFile(filename, 'utf8', function (err, data) {
         });
 
         for(var i = 0; i < 5 && i < nodeCopy.length; i++) {
-            metaData.topReferencedIndexes.push(nodeCopy[i].index);
+            var geneIndex = nodeCopy[i].index;
+            metaData.topReferencedIndexes.push({geneName:jsonData.nodes[geneIndex].name, geneIndex:geneIndex});
         }
 
         fs.writeFile(metaFilename, JSON.stringify(metaData), function(err) {
