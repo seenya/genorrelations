@@ -26,9 +26,10 @@
         <p>
         <!-- TODO: Populate dynamically with top X gene clusters to analyse  -->
           <select id="geneSelector" class="selector" name="Gene Selector" onChange="document.location = this.value" value="GO">
-            <option value="" selected>Select gene in sample</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
+            <option value="" <%= selectedGeneId === undefined ? "selected" : ""%>>Select gene in sample</option>
+            <% for(var i=0; i<topGenes.length; i++) {%>
+                <option value="visualise?id=<%=selectedDatasetId%>&amp;geneId=<%=topGenes[i].geneIndex%>" <%= selectedGeneId == topGenes[i].geneIndex ? "selected" : ""%>><%=topGenes[i].geneName%></option>
+            <% } %>
           </select>
         </p>
 
@@ -50,8 +51,6 @@
 
 // Heading for the page
 var heading = "<%= name %>";
-
-var topGenes = <%- JSON.stringify(topGenes) %>;
 
 // Main list of points. Array of dictionaries, one for each node to be drawn.
 
@@ -80,7 +79,7 @@ var labelDistance = 0;
 // Define nodes and edges (also called links)
 var links = [];
 for(var i = 0; i < connectedIndices.length; i++) {
-    var lineColour = (connectedIndices[i][2]>=0)? '#c6c6c6' : '#ff0000';
+    var lineColour = (connectedIndices[i][2]>=0)? '#0000ff' : '#ff0000';
     links.push({source:connectedIndices[i][0], target:connectedIndices[i][1], weight:1, color:lineColour});
     //links.push({source:i+1, target:connectedIndices[i], weight:1});
 };
