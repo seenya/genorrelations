@@ -25,7 +25,7 @@ body {
 
 #rightArea {
     height: 100%;
-    width: 250px;
+    width: 200px;
     float: right;
     overflow: hidden;
 }
@@ -33,14 +33,12 @@ body {
 #heading {
     height: 30px;
     width: 100%;
-    position-absolute;
     line-height: 30px;
     font-weight: bold;
     padding-left: 10px;
 }
 
 #chartArea {
-    position-absolute;
     width: 100%;
     height: auto;
     border-top: 1px solid grey;
@@ -48,10 +46,11 @@ body {
 }
 
 #inputArea {
-    height: 100px;
+    height: 60px;
     padding: 0px 10px 10px 10px;
     border-bottom: 1px dotted grey;
     position-absolute;
+    text-align: center
 }
 
 #inputArea h1 {
@@ -62,7 +61,7 @@ body {
     position-absolute;
     padding: 0px 10px 10px 10px;
     font-size: smaller;
-    height: 400px;
+    height: 500px;
     overflow: hidden;
 }
 
@@ -73,6 +72,10 @@ body {
 #samplesArea ul {
     height: 100%;
     overflow: auto;
+}
+
+.selector {
+    width: 170px;
 }
 
 svg {

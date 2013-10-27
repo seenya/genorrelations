@@ -10,17 +10,28 @@
 <body>
   <div id="container">
     <div id="rightArea">
-      <div id="inputArea"><h1>Inputs</h1>
+      <div id="inputArea">
+
         <p>
-          <select id="nodefilter" name="Node Relations Filter" onChange="document.location = this.value" value="GO">
-            <option value="" selected>select one</option>
-            <option value="visualise?id=95" >top 5 nodes with most edges</option>
-            <option value="visualise?id=2" >nodes with 2 or more connections</option>
+        <!-- TODO: Populate dynamically via load/save feature -->
+          <select id="sampleSet" class="selector" name="Sample Selector" onChange="document.location = this.value" value="GO">
+            <option value="" selected>Select analysis sample</option>
+            <option value="visualise?id=95">firstSample (95)</option>
+            <option value="visualise?id=2">Random</option>
           </select>
         </p>
-        <input type="submit" value="Submit">
+
+        <p>
+        <!-- TODO: Populate dynamically with top X gene clusters to analyse  -->
+          <select id="geneSelector" class="selector" name="Gene Selector" onChange="document.location = this.value" value="GO">
+            <option value="" selected>Select gene in sample</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </p>
+
       </div>
-      <div id="samplesArea"><h1>Samples</h1></div>
+      <div id="samplesArea"><h1>Genes</h1></div>
     </div>
     <div id="leftArea">
       <div id="heading">[Heading]</div>
