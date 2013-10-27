@@ -27,6 +27,7 @@ body {
     height: 100%;
     width: 250px;
     float: right;
+    overflow: hidden;
 }
 
 #heading {
@@ -62,7 +63,7 @@ body {
     padding: 0px 10px 10px 10px;
     font-size: smaller;
     height: 400px;
-    overflow: auto;
+    overflow: hidden;
 }
 
 #samplesArea h1 {
