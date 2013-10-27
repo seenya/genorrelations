@@ -1,4 +1,4 @@
-    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -15,21 +15,20 @@
     </div>
     <div id="rightArea">
       <div id="inputArea"><h1>Inputs</h1>
-          <p>
-              Level:
-              <select>
-                 <option value="1">1</option>
-                 <option value="2">2</option>
-                 <option value="3">3</option>
-                 <option value="4">4</option>
-              </select>
-          </p>
-          <input type="submit" value="Submit">
+        <p>
+          <select id="nodefilter" name="Node Relations Filter" onChange="document.location = this.value" value="GO">
+            <option value="" selected>select one</option>
+            <option value="visualise?id=95" >top 5 nodes with most edges</option>
+            <option value="visualise?id=2" >nodes with 2 or more connections</option>
+          </select>
+        </p>
+        <input type="submit" value="Submit">
       </div>
       <div id="samplesArea"><h1>Samples</h1></div>
     </div>
   </div>
 
+</table>
 <script>// Variables in ${} need to be parsed with appropriate values by the code before this script can be run.
 
 // ---------------------------------------------------------------------------------------
@@ -38,6 +37,8 @@
 
 // Heading for the page
 var heading = "<%= name %>";
+
+var topGenes = <%- JSON.stringify(topGenes) %>;
 
 // Main list of points. Array of dictionaries, one for each node to be drawn.
 
@@ -48,9 +49,6 @@ var connectedIndices = <%- JSON.stringify(edges) %>;
 
 
 // Dimension of the svg area to be created.
-// var w = 900.4,
-    // h = 696.1;
-
 var chartArea = document.getElementById("chartArea");
 var w = chartArea.offsetWidth,
     h = chartArea.offsetHeight;
