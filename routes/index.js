@@ -28,7 +28,7 @@ var composeJSON = function(geneIndex, data, metadata) {
     var filteredEdges = [];
 
     data.nodes.forEach(function(gene, idx) {
-        if(idx === geneIndex || geneMetaData.referencedNodes.indexOf(idx) >= 0) {
+        if(idx == geneIndex || geneMetaData.referencedNodes.indexOf(idx) >= 0) {
             filteredNodes.push(gene);
             indexMapping[idx] = filteredNodes.length - 1;
         }
@@ -36,6 +36,7 @@ var composeJSON = function(geneIndex, data, metadata) {
 
     console.log("original node count: " + data.nodes.length);
     console.log("new node count: "  + filteredNodes.length);
+    console.log("index mapping count: " + indexMapping.length);
 
     data.edges.forEach(function(edge) {
         var mappedIndex1 = indexMapping[edge[0]];
