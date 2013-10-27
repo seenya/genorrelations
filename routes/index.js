@@ -7,52 +7,56 @@ exports.index = function(req, res){
 exports.visualise = function(req, res){
     var id = req.query.id;
     var geneId = req.query.geneId;
-    getGroupJSON(id, geneId, function(err, data) {
+    var correlation = req.query.correlation;
+    getGroupJSON(id, geneId, correlation, function(err, data) {
         res.render('visualise', data);
     });
 };
 
-var composeJSON = function(datasetId, geneIndex, data, metadata) {
+var composeJSON = function(datasetId, geneIndex, correlation, data, metadata) {
     var composedJSON = {};
 
     composedJSON.name = data.name;
     composedJSON.topGenes = metadata.topReferencedIndexes;
 
-    if(geneIndex === undefined) {
-        composedJSON.nodes = data.nodes;
-        composedJSON.edges = data.edges;
+
+    var geneMetaData = metadata.nodes[geneIndex].references;
+    var edgeFilter = function(edge) {return true;};
+    if(correlation == 1) {
+        geneMetaData = metadata.nodes[geneIndex].positiveReferences;
+        edgeFilter = function(edge) {return edge[2] >= 0;};
+    } else if(correlation == 2) {
+        geneMetaData = metadata.nodes[geneIndex].negativeReferences;
+        edgeFilter = function(edge) {return edge[2] < 0;};
     }
-    else {
-        var geneMetaData = metadata.nodes[geneIndex];
-        var indexMapping = [];
-        var filteredNodes = [];
-        var filteredEdges = [];
+    var indexMapping = [];
+    var filteredNodes = [];
+    var filteredEdges = [];
 
-        data.nodes.forEach(function(gene, idx) {
-            if(idx == geneIndex || geneMetaData.referencedNodes.indexOf(idx) >= 0) {
-                filteredNodes.push(gene);
-                indexMapping[idx] = filteredNodes.length - 1;
-            }
-        });
+    data.nodes.forEach(function(gene, idx) {
+        if(geneIndex === undefined || idx == geneIndex || geneMetaData.nodes.indexOf(idx) >= 0) {
+            filteredNodes.push(gene);
+            indexMapping[idx] = filteredNodes.length - 1;
+        }
+    });
 
-        console.log("original node count: " + data.nodes.length);
-        console.log("new node count: "  + filteredNodes.length);
+    console.log("original node count: " + data.nodes.length);
+    console.log("new node count: "  + filteredNodes.length);
 
-        data.edges.forEach(function(edge) {
-            var mappedIndex1 = indexMapping[edge[0]];
-            var mappedIndex2 = indexMapping[edge[1]];
-            if(mappedIndex1 !== undefined && mappedIndex2 !== undefined) {
-                var mappedEdge = [mappedIndex1, mappedIndex2, edge[2]];
-                filteredEdges.push(mappedEdge);
-            }
-        });
+    data.edges.forEach(function(edge) {
+        var mappedIndex1 = indexMapping[edge[0]];
+        var mappedIndex2 = indexMapping[edge[1]];
+        if(mappedIndex1 !== undefined && mappedIndex2 !== undefined && edgeFilter(edge)) {
+            var mappedEdge = [mappedIndex1, mappedIndex2, edge[2]];
+            filteredEdges.push(mappedEdge);
+        }
+    });
 
-        console.log("original edge count: " + data.edges.length);
-        console.log("new edge count: " + filteredEdges.length);
+    console.log("original edge count: " + data.edges.length);
+    console.log("new edge count: " + filteredEdges.length);
 
-        composedJSON.nodes = filteredNodes;
-        composedJSON.edges = filteredEdges;
-    }
+    composedJSON.nodes = filteredNodes;
+    composedJSON.edges = filteredEdges;
 
    // Add the d3 attributes to the node names
     composedJSON.nodes.forEach(function(node) {
@@ -68,7 +72,7 @@ var composeJSON = function(datasetId, geneIndex, data, metadata) {
     return composedJSON;
 };
 
-var getGroupJSON = function(id, geneIndex, callback) {
+var getGroupJSON = function(id, geneIndex, correlation, callback) {
     var filename = './data/' + id + '.json';
     var metaFilename = './data/' + id + '.meta.json';
     fs.readFile(filename, 'utf8', function (err, data) {
@@ -82,7 +86,7 @@ var getGroupJSON = function(id, geneIndex, callback) {
                     callback(err);
                 else {
                     var metadata = JSON.parse(data);
-                    callback(null, composeJSON(id, geneIndex, jsonData, metadata));
+                    callback(null, composeJSON(id, geneIndex, correlation, jsonData, metadata));
                 }
             });
         }
