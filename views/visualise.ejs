@@ -1,4 +1,4 @@
-    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -7,8 +7,22 @@
 
 <body>
 <table>
-<tr><td><b id="heading" style="float:left">[Heading]</b>&nbsp;&nbsp;<a href='export' style="float:right; text-decoration:none;"></a><br/>
-<div id="chartArea"></div></td><td id='samplesArea' valign='top' style='padding-left:10px; font-size:11px'>Samples</td></tr>
+<tr>
+    <td>
+      <b id="heading" style="float:left">[Heading]</b>&nbsp;&nbsp;<a href='export' style="float:right; text-decoration:none;"></a><br/>
+      <div id="chartArea"></div>
+    </td>
+    <td>
+      <b> TEST 1 </b><br/>
+      <select id="nodefilter" name="Node Relations Filter" onChange="document.location = this.value" value="GO">
+        <option value="" selected>select one</option>
+        <option value="visualise?id=95" >top 5 nodes with most edges</option>
+        <option value="visualise?id=2" >nodes with 2 or more connections</option>
+      </select>
+      <p></p>
+      <div id='samplesArea' valign='top' style='padding-left:10px; font-size:11px'>Samples</div>
+    </td>
+</tr>
 </table>
 <script>// Variables in ${} need to be parsed with appropriate values by the code before this script can be run.
 
@@ -30,7 +44,7 @@ var connectedIndices = <%- JSON.stringify(edges) %>;
 
 
 // Dimension of the svg area to be created.
-var w = 1180.4,
+var w = 800,
     h = 696.1;
 
 // Contains display string for each sample id
