@@ -16,10 +16,12 @@
     <div id="rightArea">
       <div id="inputArea"><h1>Inputs</h1>
         <p>
-          <select id="nodefilter" name="Node Relations Filter" onChange="document.location = this.value" value="GO">
-            <option value="" selected>select one</option>
-            <option value="visualise?id=95" >top 5 nodes with most edges</option>
-            <option value="visualise?id=2" >nodes with 2 or more connections</option>
+          <select id="nodefilter" name="Dataset Filter" onChange="document.location = this.value" value="GO">
+            <option value="">select one</option>
+            <option value="visualise?id=95" <%= selectedDatasetId == 95 ? "selected" : "" %> >Real dataset (small)</option>
+            <option value="visualise?id=2" <%= selectedDatasetId == 2 ? "selected" : "" %> >Randomised dataset (small)</option>
+            <option value="visualise?id=1" <%= selectedDatasetId == 1 ? "selected" : "" %> >Randomised dataset (massive)</option>
+            <option value="visualise?id=3" <%= selectedDatasetId == 3 ? "selected" : "" %> >Randomised dataset (mid sized)</option>
           </select>
         </p>
         <input type="submit" value="Submit">
