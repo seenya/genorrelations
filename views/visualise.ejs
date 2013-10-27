@@ -7,6 +7,14 @@
 <script src="js/d3.v3.min.js"></script>
 <script src="js/jquery-1.9.1.js"></script></head>
 
+<script>
+function button_onClick(correlation)
+{
+    var link = document.getElementById("geneSelector").value;
+    console.log(link);
+    document.location=link+"&correlation="+correlation;
+}
+</script>
 <body>
   <div id="container">
     <div id="rightArea">
@@ -26,12 +34,19 @@
         <p>
         <!-- TODO: Populate dynamically with top X gene clusters to analyse  -->
           <select id="geneSelector" class="selector" name="Gene Selector" onChange="document.location = this.value" value="GO">
-            <option value="" <%= selectedGeneId === undefined ? "selected" : ""%>>Select gene</option>
+              <option value="visualise?id=<%=selectedDatasetId%>" <%= selectedGeneId === undefined ? "selected" : ""%>>Select gene</option>
             <% for(var i=0; i<topGenes.length; i++) {%>
                 <option value="visualise?id=<%=selectedDatasetId%>&amp;geneId=<%=topGenes[i].geneIndex%>" <%= selectedGeneId == topGenes[i].geneIndex ? "selected" : ""%>><%=topGenes[i].geneName%></option>
             <% } %>
           </select>
         </p>
+
+        <p>
+        <input type=button onClick="button_onClick(0)" value="All">
+        <input type=button onClick="button_onClick(1)" value="Positive">
+        <input type=button onClick="button_onClick(2)" value="Negative">
+        </p>
+
 
       </div>
       <div id="samplesArea"><h1>Genes</h1></div>
