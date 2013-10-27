@@ -36,7 +36,7 @@ function button_onClick(correlation)
           <select id="geneSelector" class="selector" name="Gene Selector" onChange="document.location = this.value" value="GO">
               <option value="visualise?id=<%=selectedDatasetId%>" <%= selectedGeneId === undefined ? "selected" : ""%>>Select gene</option>
             <% for(var i=0; i<topGenes.length; i++) {%>
-                <option value="visualise?id=<%=selectedDatasetId%>&amp;geneId=<%=topGenes[i].geneIndex%>" <%= selectedGeneId == topGenes[i].geneIndex ? "selected" : ""%>><%=topGenes[i].geneName%></option>
+                <option value="visualise?id=<%=selectedDatasetId%>&amp;geneId=<%=topGenes[i].geneIndex%>" <%= selectedGeneId == topGenes[i].geneIndex ? "selected" : ""%>><%=topGenes[i].geneName%> (<%=topGenes[i].count%>)</option>
             <% } %>
           </select>
         </p>

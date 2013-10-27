@@ -56,7 +56,7 @@ fs.readFile(filename, 'utf8', function (err, data) {
 
         for(var i = 0; i < 5 && i < nodeCopy.length; i++) {
             var geneIndex = nodeCopy[i].index;
-            metaData.topReferencedIndexes.push({geneName:jsonData.nodes[geneIndex].name, geneIndex:geneIndex});
+            metaData.topReferencedIndexes.push({geneName:jsonData.nodes[geneIndex].name, geneIndex:geneIndex, count:nodeCopy[i].references.count});
         }
 
         fs.writeFile(metaFilename, JSON.stringify(metaData), function(err) {
