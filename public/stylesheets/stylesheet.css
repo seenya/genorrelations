@@ -6,7 +6,7 @@ body {
     overflow: hidden;
 }
 
-#box {
+#container {
     height: 100%
     width: 100%;
 	padding: 0px;
@@ -17,43 +17,40 @@ body {
 #leftArea {
     height: 100%;
     padding: 0px;
-    float: left;
     border-right: 1px solid grey;
     background-color: lightgrey;
+    float: none;
+    overflow: hidden;
 }
 
 #rightArea {
     height: 100%;
-    width: 250px;
-    padding: 0px;
-    float: left;
-    overflow: auto;
+    width: 200px;
+    float: right;
+    overflow: hidden;
 }
 
 #heading {
     height: 30px;
     width: 100%;
-    position-absolute;
     line-height: 30px;
     font-weight: bold;
     padding-left: 10px;
 }
 
 #chartArea {
-    position-absolute;
     width: 100%;
     height: auto;
     border-top: 1px solid grey;
     background-color: white;
-    min-width: 900px;
-    min-height: 300px;
 }
 
 #inputArea {
-    position-absolute;
-    height: 200px;
+    height: 60px;
     padding: 0px 10px 10px 10px;
     border-bottom: 1px dotted grey;
+    position-absolute;
+    text-align: center
 }
 
 #inputArea h1 {
@@ -62,10 +59,10 @@ body {
 
 #samplesArea {
     position-absolute;
-    height: auto;
     padding: 0px 10px 10px 10px;
-    overflow: auto;
     font-size: smaller;
+    height: 500px;
+    overflow: hidden;
 }
 
 #samplesArea h1 {
@@ -75,6 +72,10 @@ body {
 #samplesArea ul {
     height: 100%;
     overflow: auto;
+}
+
+.selector {
+    width: 170px;
 }
 
 svg {

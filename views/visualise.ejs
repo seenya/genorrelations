@@ -8,15 +8,13 @@
 <script src="js/jquery-1.9.1.js"></script></head>
 
 <body>
-  <div id="box">
-    <div id="leftArea">
-      <div id="heading">[Heading]</div>
-      <div id="chartArea"></div>
-    </div>
+  <div id="container">
     <div id="rightArea">
-      <div id="inputArea"><h1>Inputs</h1>
+      <div id="inputArea">
+
         <p>
-          <select id="nodefilter" name="Dataset Filter" onChange="document.location = this.value" value="GO">
+        <!-- TODO: Populate dynamically via load/save feature -->
+          <select id="sampleSet" class="selector" name="Sample Selector" onChange="document.location = this.value" value="GO">
             <option value="">select one</option>
             <option value="visualise?id=95" <%= selectedDatasetId == 95 ? "selected" : "" %> >Real dataset (small)</option>
             <option value="visualise?id=2" <%= selectedDatasetId == 2 ? "selected" : "" %> >Randomised dataset (small)</option>
@@ -24,13 +22,26 @@
             <option value="visualise?id=3" <%= selectedDatasetId == 3 ? "selected" : "" %> >Randomised dataset (mid sized)</option>
           </select>
         </p>
-        <input type="submit" value="Submit">
+
+        <p>
+        <!-- TODO: Populate dynamically with top X gene clusters to analyse  -->
+          <select id="geneSelector" class="selector" name="Gene Selector" onChange="document.location = this.value" value="GO">
+            <option value="" selected>Select gene in sample</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </p>
+
       </div>
-      <div id="samplesArea"><h1>Samples</h1></div>
+      <div id="samplesArea"><h1>Genes</h1></div>
     </div>
+    <div id="leftArea">
+      <div id="heading">[Heading]</div>
+      <div id="chartArea"></div>
+    </div>
+
   </div>
 
-</table>
 <script>// Variables in ${} need to be parsed with appropriate values by the code before this script can be run.
 
 // ---------------------------------------------------------------------------------------
