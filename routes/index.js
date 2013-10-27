@@ -36,12 +36,11 @@ var composeJSON = function(geneIndex, data, metadata) {
 
     console.log("original node count: " + data.nodes.length);
     console.log("new node count: "  + filteredNodes.length);
-    console.log("index mapping count: " + indexMapping.length);
 
     data.edges.forEach(function(edge) {
         var mappedIndex1 = indexMapping[edge[0]];
         var mappedIndex2 = indexMapping[edge[1]];
-        if(mappedIndex1 && mappedIndex2) {
+        if(mappedIndex1 !== undefined && mappedIndex2 !== undefined) {
             var mappedEdge = [mappedIndex1, mappedIndex2, edge[2]];
             filteredEdges.push(mappedEdge);
         }
