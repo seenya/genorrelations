@@ -12,45 +12,47 @@ exports.visualise = function(req, res){
     });
 };
 
-var composeJSON = function(geneIndex, data, metadata) {
+var composeJSON = function(datasetId, geneIndex, data, metadata) {
     var composedJSON = {};
 
     composedJSON.name = data.name;
     composedJSON.topGenes = metadata.topReferencedIndexes;
 
-    if(!geneIndex) {
-        geneIndex = composedJSON.topGenes[0].geneIndex;
+    if(geneIndex === undefined) {
+        composedJSON.nodes = data.nodes;
+        composedJSON.edges = data.edges;
     }
+    else {
+        var geneMetaData = metadata.nodes[geneIndex];
+        var indexMapping = [];
+        var filteredNodes = [];
+        var filteredEdges = [];
 
-    var geneMetaData = metadata.nodes[geneIndex];
-    var indexMapping = [];
-    var filteredNodes = [];
-    var filteredEdges = [];
+        data.nodes.forEach(function(gene, idx) {
+            if(idx == geneIndex || geneMetaData.referencedNodes.indexOf(idx) >= 0) {
+                filteredNodes.push(gene);
+                indexMapping[idx] = filteredNodes.length - 1;
+            }
+        });
 
-    data.nodes.forEach(function(gene, idx) {
-        if(idx == geneIndex || geneMetaData.referencedNodes.indexOf(idx) >= 0) {
-            filteredNodes.push(gene);
-            indexMapping[idx] = filteredNodes.length - 1;
-        }
-    });
+        console.log("original node count: " + data.nodes.length);
+        console.log("new node count: "  + filteredNodes.length);
 
-    console.log("original node count: " + data.nodes.length);
-    console.log("new node count: "  + filteredNodes.length);
+        data.edges.forEach(function(edge) {
+            var mappedIndex1 = indexMapping[edge[0]];
+            var mappedIndex2 = indexMapping[edge[1]];
+            if(mappedIndex1 !== undefined && mappedIndex2 !== undefined) {
+                var mappedEdge = [mappedIndex1, mappedIndex2, edge[2]];
+                filteredEdges.push(mappedEdge);
+            }
+        });
 
-    data.edges.forEach(function(edge) {
-        var mappedIndex1 = indexMapping[edge[0]];
-        var mappedIndex2 = indexMapping[edge[1]];
-        if(mappedIndex1 !== undefined && mappedIndex2 !== undefined) {
-            var mappedEdge = [mappedIndex1, mappedIndex2, edge[2]];
-            filteredEdges.push(mappedEdge);
-        }
-    });
+        console.log("original edge count: " + data.edges.length);
+        console.log("new edge count: " + filteredEdges.length);
 
-    console.log("original edge count: " + data.edges.length);
-    console.log("new edge count: " + filteredEdges.length);
-
-    composedJSON.nodes = filteredNodes;
-    composedJSON.edges = filteredEdges;
+        composedJSON.nodes = filteredNodes;
+        composedJSON.edges = filteredEdges;
+    }
 
    // Add the d3 attributes to the node names
     composedJSON.nodes.forEach(function(node) {
@@ -59,6 +61,9 @@ var composeJSON = function(geneIndex, data, metadata) {
         node.fill = "#c2c2c2";
         node.stroke = "#a6a6a6";
     });
+
+    composedJSON.selectedGeneId = geneIndex;
+    composedJSON.selectedDatasetId = datasetId;
 
     return composedJSON;
 };
@@ -77,7 +82,7 @@ var getGroupJSON = function(id, geneIndex, callback) {
                     callback(err);
                 else {
                     var metadata = JSON.parse(data);
-                    callback(null, composeJSON(geneIndex, jsonData, metadata));
+                    callback(null, composeJSON(id, geneIndex, jsonData, metadata));
                 }
             });
         }
