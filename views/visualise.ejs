@@ -33,6 +33,8 @@
 // Heading for the page
 var heading = "<%= name %>";
 
+var topGenes = <%- JSON.stringify(topGenes) %>;
+
 // Main list of points. Array of dictionaries, one for each node to be drawn.
 
 var points = <%- JSON.stringify(nodes) %>;

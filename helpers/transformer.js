@@ -3,6 +3,9 @@ var Transform = require('stream').Transform;
 
 // call : node transfomer.js inputfile id name
 // e.g. : node transformer.js data/testdata.txt 1 testStuff
+// Data format is assumed to be ["gene1Name", "gene2Name", "etc"][[nodeIndex, nodeIndex, correlation][nodeIndex, nodeIndex, correlation][etc.]]
+//  where there are any number of genenNames, and the nodeIndexes supply a link between two nodes, e.g. [0,1,0.5] represents a relationship between gene1Name and gene2Name with a correlation of 0.5.
+
 
 var inputFilename = process.argv[2];
 var id = process.argv[3];
@@ -62,7 +65,7 @@ transform._transform = function (data, encoding, done) {
             else {
                 this.push(",");
             }
-            this.push("{\"label\":\"" + nodeNames[i] + "\", \"radius\":5, \"fill\":\"#c2c2c2\", \"stroke\":\"#a6a6a6\"}");
+            this.push("{\"name\":\"" + nodeNames[i] + "\"}");
         }
     }
 
@@ -83,7 +86,9 @@ transform._flush = function(callback) {
 var indiciesStarted = false;
 target.write("{\"id\":");
 target.write(id);
-target.write(",\"name\":\"hematlas, celltype\",\n\"nodes\":[");
+target.write(",\"name\":\"" + itemName + "\",\n\"nodes\":[");
 source.pipe(transform).pipe(target);
+
+
 
 
