@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css">
 <link rel="stylesheet" type="text/css" href="stylesheets/jquery-ui-1.10.3.custom.css">
+<title>Gene Viz</title>
 <script src="js/d3.v3.min.js"></script>
 <script src="js/jquery-1.9.1.js"></script></head>
 
@@ -66,6 +67,9 @@ function button_onClick(correlation)
 
 // Heading for the page
 var heading = "<%= name %>";
+
+var title = document.getElementsByTagName("title");
+title[0].text = title[0].text + ": " + heading;
 
 // Main list of points. Array of dictionaries, one for each node to be drawn.
 
