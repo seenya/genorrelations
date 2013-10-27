@@ -19,16 +19,22 @@ var composeJSON = function(datasetId, geneIndex, correlation, data, metadata) {
     composedJSON.name = data.name;
     composedJSON.topGenes = metadata.topReferencedIndexes;
 
+    if(geneIndex !== undefined) {
+        var geneMetaData = metadata.nodes[geneIndex].references;
+        if(correlation == 1) {
+            geneMetaData = metadata.nodes[geneIndex].positiveReferences;
+        } else if(correlation == 2) {
+            geneMetaData = metadata.nodes[geneIndex].negativeReferences;
+        }
+    }
 
-    var geneMetaData = metadata.nodes[geneIndex].references;
     var edgeFilter = function(edge) {return true;};
     if(correlation == 1) {
-        geneMetaData = metadata.nodes[geneIndex].positiveReferences;
         edgeFilter = function(edge) {return edge[2] >= 0;};
     } else if(correlation == 2) {
-        geneMetaData = metadata.nodes[geneIndex].negativeReferences;
         edgeFilter = function(edge) {return edge[2] < 0;};
     }
+
     var indexMapping = [];
     var filteredNodes = [];
     var filteredEdges = [];
