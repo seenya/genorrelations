@@ -80,7 +80,7 @@ var composeJSON = function(datasetId, geneIndex, correlation, data, metadata) {
 
 var getGroupJSON = function(id, geneIndex, correlation, callback) {
     var filename = './data/' + id + '.json';
-    var metaFilename = './data/' + id + '.meta.json';
+    var metaFilename = './data/' + id + '.stats.json';
     fs.readFile(filename, 'utf8', function (err, data) {
         if (err)
             callback(err);

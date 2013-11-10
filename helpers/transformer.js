@@ -10,7 +10,7 @@ var Transform = require('stream').Transform;
 var inputFilename = process.argv[2];
 var id = process.argv[3];
 var itemName = process.argv[4];
-var outputFilename = "../data/" + id + ".json";
+var outputFilename = "./data/" + id + ".json";
 
 var source = fs.createReadStream(inputFilename);
 var target = fs.createWriteStream(outputFilename);

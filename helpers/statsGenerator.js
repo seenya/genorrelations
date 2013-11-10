@@ -3,7 +3,7 @@ var fs = require('fs');
 var id = process.argv[2];
 
 var filename = './data/' + id + '.json';
-var metaFilename = './data/' + id + '.meta.json';
+var metaFilename = './data/' + id + '.stats.json';
 fs.readFile(filename, 'utf8', function (err, data) {
     if (err)
         console.log(err);
