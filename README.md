@@ -1,6 +1,6 @@
 genorrelations
 ==============
-This was originally forked from [[https://github.com/hqtan/healthhack2013][hqtan/healthhack2013]] with the intent to:
+This was originally forked from [hqtan/healthhack2013](https://github.com/hqtan/healthhack2013) with the intent to:
 * Solve the same problem
 * Utilise more robust storage (neo4j + mongodb)
 * Enable users to submit new datasets through the web UI
