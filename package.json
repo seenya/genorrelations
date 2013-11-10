@@ -1,23 +1,26 @@
 {
-  "name": "d3wiz",
+  "name": "genorrelations",
   "version": "0.0.0",
-  "description": "Browser based visualisation of gene relationships",
+  "description": "Browser based visualisation of gene relationships/correlations",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/hqtan/healthhack2013.git"
+    "url": "git@github.com:seenya/genorrelations.git"
   },
-  "author": "d3 wiz",
+  "author": "seenya@gmail.com",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/hqtan/healthhack2013/issues"
+    "url": "https://github.com/seenya/genorrelations/issues"
   },
   "dependencies": {
     "express": "~3.4.3",
     "stylus": "~0.38.0",
     "ejs": "~0.8.4"
+  },
+  "devDependencies": {
+    "mocha": "~1.14.0"
   }
 }
