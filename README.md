@@ -12,7 +12,8 @@ Setting up the dev environment:
 
 
 Importing Data
+--------------
 Data is assumed to be in the format: 
-["gene1", "gene2", "etc"][[geneIndex1, geneIndex2, correlation][repeat pattern]]
+`["gene1", "gene2", "etc"][[geneIndex1, geneIndex2, correlation][repeat pattern]]`
 e.g.
-["Pomp", "Blvra", "net1"][[0, 1, 0.7][1, 2, -0.7]] - means Pomp has a correlation of 0.7 to Blvra.
+`["Pomp", "Blvra", "net1"][[0, 1, 0.7][1, 2, -0.7]]` - means Pomp has a correlation of 0.7 to Blvra.
