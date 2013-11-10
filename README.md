@@ -1,7 +1,12 @@
-healthhack2013
+genorrelations
 ==============
+This was originally forked from [[https://github.com/hqtan/healthhack2013][hqtan/healthhack2013]] with the intent to:
+* Solve the same problem
+* Utilise more robust storage (neo4j + mongodb)
+* Enable users to submit new datasets through the web UI
 
-Setting up the dev environment:
+Setting up the dev environment
+------------------------------
 * Install git
 * Download the repo - git clone git@github.com:hqtan/healthhack2013.git
 * Install node http://nodejs.org
